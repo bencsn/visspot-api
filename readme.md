@@ -1,4 +1,4 @@
-# Rest API service for the Visspot Project
+# REST API service for the Visspot Project
 
 ## Development
 
