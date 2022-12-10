@@ -8,3 +8,7 @@ export function getServerForTesting(): supertest.SuperTest<supertest.Test> {
 export function testCleanup(): void {
     server.close();
 }
+
+export function testSetup(): void {
+    // Do nothing
+}

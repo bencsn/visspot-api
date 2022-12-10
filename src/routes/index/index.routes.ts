@@ -3,7 +3,8 @@ import express from "express"
 const homeRouter = express.Router()
 
 homeRouter.get("/", (req, res) => {
-  res.json({ message: "Welcome to Visspot API" })
+  req.log.info("Hello home")
+  res.json({ message: "Hello home" })
 })
 
 export default homeRouter

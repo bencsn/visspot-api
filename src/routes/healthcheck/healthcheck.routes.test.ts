@@ -1,6 +1,12 @@
-import { getServerForTesting, testCleanup } from "../../testSetups"
+import { getServerForTesting, testCleanup, testSetup } from "../../testSetups"
 
 export const server = getServerForTesting()
+
+
+beforeAll(() => {
+  testSetup()
+})
+
 afterAll(() => {
   testCleanup()
 })

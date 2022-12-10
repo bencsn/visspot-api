@@ -1,6 +1,10 @@
-import { testCleanup, getServerForTesting } from '../../testSetups';
+import { testCleanup, getServerForTesting, testSetup } from '../../testSetups';
 
 const server = getServerForTesting()
+
+beforeAll(() => {
+  testSetup()
+})
 
 afterAll(() => {
   testCleanup()
@@ -18,16 +22,4 @@ describe("GET /", () => {
         cb(err)
       })
   })
-
-  it("should return a json with a message", (cb) => {
-    server
-      .get("/")
-      .then((response) => {
-        expect(response.body).toEqual({ message: "Welcome to Visspot API" })
-        cb()
-      })
-      .catch((err) => {
-        cb(err)
-      })
-  })
-})
+});

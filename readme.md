@@ -2,59 +2,33 @@
 
 ## Development
 
-1. Create a config file for the development environment
-```bash
-
-touch config/local.json
+1. Create a .env file in the root directory with the following content. These environment variables will be used during development and automated testing
 
 ```
-
-2. Add the following content to the config file
-```json
-
-{
-  "server": {
-    "port": 3000
-  }
-}
-
-```
-3. Create another config file for the test environment
-```bash
-
-touch config/test.json
-
+DATABASE_URL=<YOUR DATABASE URI>
+SERVER_PORT=<YOUR SERVER PORT>
 ```
 
-4. Add the config for the test environment
-```json
+2. Install the dependencies
 
-{
-  "server": {
-    "port": 3001
-  }
-}
-
-```
-
-5. Install the dependencies
 ```bash
 
 npm install
 
 ```
 
-6. Run the tests
+3. Run the tests
+
 ```bash
 
 npm test
 
 ```
 
-7. Start the server
+4. Start the server
+
 ```bash
 
 npm start
 
 ```
-

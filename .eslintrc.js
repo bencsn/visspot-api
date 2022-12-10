@@ -10,6 +10,7 @@ module.exports = {
       files: ["*.ts"],
       rules: {
         "no-console": "error",
+        "@typescript-eslint/no-misused-promises": "off"
       },
     },
   ],
