@@ -7,6 +7,21 @@
 ```
 DATABASE_URL=<YOUR DATABASE URI>
 SERVER_PORT=<YOUR SERVER PORT>
+
+
+# Auth0 endpoints
+AUTH0_TOKEN_URI="https://example.auth0.com/oauth/token"
+AUTH0_USER_INFO_URI="https://example.auth0.com/userinfo"
+AUTH0_AUTHORISATION_URI="https://example.auth0.com/authorize"
+
+
+# Auth0 credentials
+AUTH0_CLIENT_SECRET="YOUR CLIENT SECRET"
+AUTH0_CLIENT_ID="YOUR CLIENT ID"
+AUTH0_REDIRECT_URI="http://localhost:4000/login/callback"
+
+
+JWT_SECRET="YOUR JWT SECRET"
 ```
 
 2. Install the dependencies
