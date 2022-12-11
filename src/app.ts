@@ -20,13 +20,6 @@ app.use(
 
 registerRoutes(app)
 
-app.get("/private", verifyToken, function (req, res) {
-  res.json({
-    message:
-      "Hello from a private endpoint! You need to be authenticated to see this.",
-  })
-})
-
 const port = process.env.SERVER_PORT ?? 8082
 const server = app.listen(port, () => {
   // eslint-disable-next-line no-console

@@ -9,7 +9,16 @@ loginRouter.get("/", async (req, res) => {
   const randomState = v4()
   const clientId = process.env.AUTH0_CLIENT_ID
   const auth0RedirectUri = process.env.AUTH0_REDIRECT_URI
-  const auth0AuthorisationUrl = process.env.AUTH0_AUTHORISATION_URI
+  const auth0EndpointBase = process.env.AUTH0_ENDPOINT_BASE
+  if (!isString(auth0EndpointBase)) {
+    res.status(500)
+    res.json({
+      message:
+        "No oauth endpoint base. Did you set the AUTH0_ENDPOINT_BASE environment variable?",
+    })
+    return
+  }
+  const auth0AuthorisationUrl = `${auth0EndpointBase}/authorize`
   if (!isString(clientId)) {
     res.status(500)
     res.json({
@@ -18,7 +27,7 @@ loginRouter.get("/", async (req, res) => {
     })
     return
   }
-  
+
   if (!isString(auth0RedirectUri)) {
     res.status(500)
     res.json({
@@ -31,7 +40,8 @@ loginRouter.get("/", async (req, res) => {
   if (!isString(auth0AuthorisationUrl)) {
     res.status(500)
     res.json({
-      message: "No authorisation url. Did you set the AUTH0_AUTHORISATION_URL environment variable?",
+      message:
+        "No authorisation url. Did you set the AUTH0_AUTHORISATION_URL environment variable?",
     })
     return
   }
@@ -44,7 +54,16 @@ loginRouter.get("/callback", async function (req, res) {
   const clientSecret = process.env.AUTH0_CLIENT_SECRET
   const clientId = process.env.AUTH0_CLIENT_ID
   const auth0RedirectUri = process.env.AUTH0_REDIRECT_URI
-  const auth0TokenUri = process.env.AUTH0_TOKEN_URI
+  const oauthEndpointBase = process.env.AUTH0_ENDPOINT_BASE
+  if (!isString(oauthEndpointBase)) {
+    res.status(500)
+    res.json({
+      message:
+        "No oauth endpoint base. Did you set the AUTH0_ENDPOINT_BASE environment variable?",
+    })
+    return
+  }
+  const auth0TokenUri = `${oauthEndpointBase}/oauth/token`
 
   if (!isString(clientSecret)) {
     res.status(500)
@@ -82,15 +101,6 @@ loginRouter.get("/callback", async function (req, res) {
     return
   }
 
-  if (!isString(auth0TokenUri)) {
-    res.status(500)
-    res.json({
-      message:
-        "No token uri. Did you set the AUTH0_TOKEN_URI environment variable?",
-    })
-    return
-  }
-
   const options = {
     method: "POST",
     url: auth0TokenUri,
@@ -121,15 +131,8 @@ loginRouter.get("/callback", async function (req, res) {
       })
       return
     }
-    const auth0UserInfoUri = process.env.AUTH0_USER_INFO_URI
-    if (!isString(auth0UserInfoUri)) {
-      res.status(500)
-      res.json({
-        message:
-          "No userinfo uri. Did you set the AUTH0_USERINFO_URI environment variable?",
-      })
-      return
-    }
+    const auth0UserInfoUri = `${oauthEndpointBase}/userinfo`
+
     // get user info
     const userInfoResponse = await fetch(auth0UserInfoUri, {
       headers: {
@@ -165,7 +168,7 @@ loginRouter.get("/callback", async function (req, res) {
       },
       jwtSecret,
       {
-        expiresIn: '15m',
+        expiresIn: "15m",
       }
     )
 

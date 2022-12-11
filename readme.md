@@ -10,9 +10,7 @@ SERVER_PORT=<YOUR SERVER PORT>
 
 
 # Auth0 endpoints
-AUTH0_TOKEN_URI="https://example.auth0.com/oauth/token"
-AUTH0_USER_INFO_URI="https://example.auth0.com/userinfo"
-AUTH0_AUTHORISATION_URI="https://example.auth0.com/authorize"
+AUTH0_ENDPOINT_BASE="https://example.auth0.com"
 
 
 # Auth0 credentials
