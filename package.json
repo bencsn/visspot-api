@@ -9,7 +9,8 @@
     "lint": "eslint . --ext .ts",
     "lint-fix": "eslint . --ext .ts --fix",
     "test": "jest --detectOpenHandles",
-    "test-watch": "jest --watch --detectOpenHandles"
+    "test-watch": "jest --watch --detectOpenHandles",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "Ben Chomsang",
