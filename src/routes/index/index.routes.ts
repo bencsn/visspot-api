@@ -1,10 +1,8 @@
 import express from "express"
+import { homeController } from "./index.controllers";
 
 const homeRouter = express.Router()
 
-homeRouter.get("/", (req, res) => {
-  req.log.info("Hello home")
-  res.json({ message: "Hello home" })
-})
+homeRouter.get("/", homeController)
 
 export default homeRouter
