@@ -1,4 +1,4 @@
-FROM node:16
+FROM node:19
 
 # Create app directory
 WORKDIR /usr/src/app
@@ -7,13 +7,17 @@ WORKDIR /usr/src/app
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 # where available (npm@5+)
 COPY package*.json ./
- 
-RUN npm ci --only=production
+
+RUN npm i -g pnpm
+RUN npm install -g typescript 
+
+RUN pnpm install --production
+
 # build app
-RUN npm run build
+RUN pnpm run build
 
 # Bundle app source
 COPY . .
 
-EXPOSE 8080
+EXPOSE 4000
 CMD [ "node", "dist/app.js" ]

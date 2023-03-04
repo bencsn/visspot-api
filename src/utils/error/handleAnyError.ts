@@ -1,8 +1,23 @@
+/* eslint-disable no-extra-boolean-cast */
 import { Prisma } from "@prisma/client"
 import { Response } from "express"
 import logger from "../logging/logger"
+import { sendError } from "./sendError"
 
-export function handleAnyError(e: any, res?: Response, additionalMessage?:string): void {
+/**
+ *
+ * @param e error object
+ * @param res  response object. If undefined, the error will not be sent to the client
+ * @param additionalMessage  additional message to send to the client
+ */
+export function handleAnyError(
+  e: any,
+  res?: Response,
+  additionalMessage?: string
+): Response<any, Record<string, any>> | undefined {
+  if (!(Boolean(e))) {
+    return
+  }
   //   handle all types of prisma errors
   if (e instanceof Prisma.PrismaClientKnownRequestError) {
     logger.error(e)
@@ -10,21 +25,23 @@ export function handleAnyError(e: any, res?: Response, additionalMessage?:string
     if (e.code === "P2002") {
       if (res !== undefined) {
         res.status(409)
-        res.json({
+        return res.json({
           message: `Unique constraint failed. ${additionalMessage ?? ""}`,
         })
       }
     } else if (e.code === "P2001") {
       if (res !== undefined) {
         res.status(404)
-        res.json({
-          message: `The record searched for was not found. ${additionalMessage ?? ""}`,
+        return res.json({
+          message: `The record searched for was not found. ${
+            additionalMessage ?? ""
+          }`,
         })
       }
     } else {
       if (res !== undefined) {
         res.status(500)
-        res.json({
+        return res.json({
           message: `${e.message}. ${additionalMessage ?? ""}`,
         })
       }
@@ -32,10 +49,7 @@ export function handleAnyError(e: any, res?: Response, additionalMessage?:string
   } else {
     logger.error(e)
     if (res !== undefined) {
-      res.status(500)
-      res.json({
-        message: `Something went wrong: ${e.message as string}. ${additionalMessage ?? ""}`,
-      })
+      sendError({ error: e, res, additionalMessage })
     }
   }
 }

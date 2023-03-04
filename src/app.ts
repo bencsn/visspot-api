@@ -4,9 +4,15 @@ import { registerRoutes } from "./registerRoutes"
 import logger from "./utils/logging/logger"
 import cors from "cors"
 
-dotenvConfig()
+dotenvConfig({
+  path:
+    process.env.NODE_ENV === "test"
+      ? ".env.test"
+      : process.env.NODE_ENV === "production"
+      ? ".env"
+      : ".env.development",
+})
 const app = express()
-
 
 app.use(express.json())
 app.use(
