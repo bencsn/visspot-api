@@ -1,6 +1,7 @@
 /* eslint-disable no-extra-boolean-cast */
 import { Prisma } from "@prisma/client"
 import { Response } from "express"
+import { ZodError } from "zod"
 import logger from "../logging/logger"
 import { sendError } from "./sendError"
 
@@ -17,6 +18,18 @@ export function handleAnyError(
 ): Response<any, Record<string, any>> | undefined {
   if (!(Boolean(e))) {
     return
+  }
+
+  if (e instanceof ZodError) {
+    logger.error(e)
+    if (res !== undefined) {
+      res.status(400)
+      return res.json({
+        message:`${e.errors.map(e => {
+          return e.message
+        }).join(", ")}\n ${additionalMessage ?? ""}`
+      })
+    }
   }
   //   handle all types of prisma errors
   if (e instanceof Prisma.PrismaClientKnownRequestError) {

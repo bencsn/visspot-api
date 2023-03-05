@@ -177,7 +177,7 @@ export const logInCallback = async (
       },
       jwtSecret,
       {
-        expiresIn: "15m",
+        expiresIn: process.env.ACCESS_TOKEN_EXPIRES_IN ?? "15m",
       }
     )
 
@@ -190,7 +190,7 @@ export const logInCallback = async (
       },
       jwtSecret,
       {
-        expiresIn: "7d",
+        expiresIn: process.env.REFRESH_TOKEN_EXPIRES_IN ?? "7d",
       }
     )
 
@@ -264,7 +264,7 @@ export const refreshTokenController = async (
       },
       jwtSecret,
       {
-        expiresIn: "15m",
+        expiresIn: process.env.ACCESS_TOKEN_EXPIRES_IN ?? "15m",
       }
     )
 
@@ -277,7 +277,7 @@ export const refreshTokenController = async (
       },
       jwtSecret,
       {
-        expiresIn: "7d",
+        expiresIn: process.env.REFRESH_TOKEN_EXPIRES_IN ?? "7d",
       }
     )
 

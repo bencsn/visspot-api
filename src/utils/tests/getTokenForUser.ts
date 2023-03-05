@@ -18,7 +18,7 @@ export const getTokenForUser = async (user: User): Promise<string> => {
     },
     jwtSecret,
     {
-      expiresIn: "15m",
+      expiresIn: process.env.ACCESS_TOKEN_EXPIRES_IN ?? "15m",
     }
   )
 

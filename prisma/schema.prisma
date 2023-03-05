@@ -35,8 +35,8 @@ model Document {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   project   Project  @relation(fields: [projectId], references: [id])
-  content   String
-  type      String
+  content   String  @db.Text
+  type      String 
   projectId String
 
   @@index([projectId])
