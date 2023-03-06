@@ -26,7 +26,7 @@ export function handleAnyError(
       res.status(400)
       return res.json({
         message:`${e.errors.map(e => {
-          return e.message
+          return `${e.path.join(',')} ${e.message}`
         }).join(", ")}\n ${additionalMessage ?? ""}`
       })
     }

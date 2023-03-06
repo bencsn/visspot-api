@@ -1,4 +1,5 @@
 import { Response } from "express"
+import _ from "lodash"
 import { z } from "zod"
 import prisma from "../../utils/db/prisma"
 import { handleAnyError } from "../../utils/error/handleAnyError"
@@ -53,7 +54,7 @@ export const createDocument = async (
       data: {
         content,
         type,
-        name:"",
+        name: "",
         project: {
           connect: {
             id: projectId,
@@ -61,6 +62,38 @@ export const createDocument = async (
         },
       },
     })
+
+    const searchEndpoint = process.env.SEARCH_ENDPOINT
+    if (!_.isString(searchEndpoint)) {
+      res
+        .status(500)
+        .json({ message: "SEARCH_ENDPOINT environment variable is not set" })
+      return
+    }
+
+    const insertEndpoint = `${searchEndpoint}/insert`
+    const response = await fetch(insertEndpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        indexNamespace: project.id,
+        texts: [
+          {
+            id: document.id,
+            text: content,
+          },
+        ],
+      }),
+    })
+
+    if (!response.status.toString().startsWith("2")) {
+      res
+        .status(response.status ?? 500)
+        .json({ message: "Error inserting to the search index" })
+      return
+    }
 
     res.status(201).json({ document })
   } catch (error) {
