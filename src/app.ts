@@ -5,12 +5,7 @@ import logger from "./utils/logging/logger"
 import cors from "cors"
 
 dotenvConfig({
-  path:
-    process.env.NODE_ENV === "test"
-      ? ".env.test"
-      : process.env.NODE_ENV === "production"
-      ? ".env"
-      : ".env.development",
+  path: ".env",
 })
 const app = express()
 
